@@ -38,6 +38,10 @@ public class SendSms {
         messageFactory = account.getMessageFactory();
     }
  
+    /**
+     * @author Jake Sylvestre
+     * Send SMS given phoneNumber and body given in original code
+     */
     public void sendSms(){
         try{
             List<NameValuePair> params = new ArrayList<NameValuePair>();
