@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class Worker {
     Connection conn;
     /**
-     * Created a new Worker with a database connection
+     * Creates a new Worker with a database connection
      * @param url The database URL
      * @param username The database username
      * @param password The database password
