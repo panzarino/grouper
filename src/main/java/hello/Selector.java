@@ -14,7 +14,7 @@ public class Selector extends Worker {
      * @param username The database username
      * @param password The database password
      */
-    public CreateWorker(String url, String username, String password){
+    public Selector(String url, String username, String password){
         super(url, username, password);
     }
     /**
