@@ -8,11 +8,11 @@
  
     <servlet>
         <servlet-name>GrouperServlet</servlet-name>
-        <servlet-class>hello.Listener</servlet-class>
+        <servlet-class>Listener</servlet-class>
     </servlet>
  
     <servlet-mapping>
-        <servlet-name>Listener</servlet-name>
+        <servlet-name>GrouperServlet</servlet-name>
         <url-pattern>/sms</url-pattern>
     </servlet-mapping>
  
