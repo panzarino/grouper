@@ -7,7 +7,7 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.Message;
  
-public class Listener extends HttpServlet {
+public class GrouperServlet extends HttpServlet {
  
     // service() responds to both GET and POST requests.
     // You can also use doGet() or doPost()
