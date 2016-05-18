@@ -14,8 +14,6 @@ public class Action {
     public static void create(String number, String content){
         String code = content.replaceAll("\\s+","");
         String key = code.substring(0, Math.min(20, code.length()));
-        
-        return "";
     }
     
     /**
@@ -26,8 +24,6 @@ public class Action {
     public static void join(String number, String content){
         String code = content.replaceAll("\\s+","");
         String key = code.substring(0, Math.min(20, code.length()));
-        
-        return "";
     } 
     
     /**
@@ -37,7 +33,13 @@ public class Action {
      */
     public static void message(String number, String content){
         String key = code.substring(0, Math.min(140, code.length()));
+    } 
+    
+    /**
+     * Removes a user from his/her existing group
+     * @param number The phone number of the sender
+     */
+    public static void leave(String number){
         
-        return "";
     } 
 }
