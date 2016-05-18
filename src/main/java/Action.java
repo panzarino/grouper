@@ -32,7 +32,7 @@ public class Action {
      * @param content The content of the message
      */
     public static void message(String number, String content){
-        String key = code.substring(0, Math.min(140, code.length()));
+        String key = content.substring(0, Math.min(140, content.length()));
     } 
     
     /**
