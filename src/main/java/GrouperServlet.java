@@ -29,7 +29,7 @@ public class GrouperServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String phoneNumber = request.getParameter("From");
         String body = request.getParameter("body");
-        Msg text = new Msg(phoneNumber, body);
+        Text text = new Text(phoneNumber, body);
         text.execute();
         TwiMLResponse twiml = new TwiMLResponse();
         Message message = new Message("Your message has been sent!");

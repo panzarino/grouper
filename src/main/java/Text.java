@@ -5,14 +5,14 @@ package hello;
  * @author Zach Panzarino
  * @version 1.0.0
  */
-public class Msg {
+public class Text {
     private String number, text;
     /**
-     * Creates a new message and stores the text
+     * Creates a new text and stores the text
      * @param num Sending phone number
      * @param content The content of the message
      */
-    public Msg(String num, String content){
+    public Text(String num, String content){
         number = num;
         text = content;
     }
