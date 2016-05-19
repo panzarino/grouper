@@ -11,22 +11,8 @@ import com.twilio.sdk.verbs.Message;
  
 public class GrouperServlet extends HttpServlet {
  
-    // service() responds to both GET and POST requests.
-    // You can also use doGet() or doPost()
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        TwiMLResponse twiml = new TwiMLResponse();
-        Message message = new Message("Hello, Mobile Monkey");
-        try {
-            twiml.append(message);
-        } catch (TwiMLException e) {
-            e.printStackTrace();
-        }
- 
-        response.setContentType("application/xml");
-        response.getWriter().print(twiml.toXML());
-    }
-    
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String phoneNumber = request.getParameter("From");
         String body = request.getParameter("body");
         Text text = new Text(phoneNumber, body);

@@ -8,7 +8,7 @@
  
     <servlet>
         <servlet-name>GrouperServlet</servlet-name>
-        <servlet-class>Listener</servlet-class>
+        <servlet-class>hello.GrouperServlet</servlet-class>
     </servlet>
  
     <servlet-mapping>
