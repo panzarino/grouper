@@ -14,6 +14,7 @@ public class Action {
     public static void create(String number, String content){
         String code = content.replaceAll("\\s+","");
         String key = code.substring(0, Math.min(20, code.length()));
+        new SendSms(number, "testing works").sendSms();
     }
     /**
      * Adds a user to a group of an existing id
