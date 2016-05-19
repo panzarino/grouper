@@ -14,7 +14,9 @@ public class Action {
     public static void create(String number, String content){
         String code = content.replaceAll("\\s+","");
         String key = code.substring(0, Math.min(20, code.length()));
-        new SendSms(number, "testing works").sendSms();
+        Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+        inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
+        (new SendSms(number, "You have created and joined a chat with id: "+key)).sendSms();
     }
     /**
      * Adds a user to a group of an existing id
