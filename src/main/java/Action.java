@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @version 1.0.0
  */
 public class Action {
-    private static final Logger log = Logger.getLogger(Worker.class.getName());
+    private static final Logger log = Logger.getLogger(Action.class.getName());
     /**
      * Sends error message
      * @param number The phone number to send to
