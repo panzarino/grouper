@@ -87,7 +87,7 @@ public class Action {
                     ResultSet users = selector.select("*", "Users", "Chat="+selected.getInt("Chat"));
                     while (selected.next()){
                         if (selected.getInt("Chat") == users.getInt("Chat")){
-                            (new SendSms(users.getString("Number"), selected.getString("Name")+": "+content).sendSms();
+                            (new SendSms(users.getString("Number"), selected.getString("Name")+": "+content)).sendSms();
                         }
                     }
                 }
