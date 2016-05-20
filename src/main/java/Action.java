@@ -2,6 +2,7 @@ package hello;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * Class that carries out actions
@@ -9,6 +10,7 @@ import java.sql.SQLException;
  * @version 1.0.0
  */
 public class Action {
+    private static final Logger log = Logger.getLogger(Worker.class.getName());
     /**
      * Sends error message
      * @param number The phone number to send to
@@ -37,10 +39,12 @@ public class Action {
             inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
             (new SendSms(number, "You have created a chat with id: "+key)).sendSms();
             join(number, content);
+            selector.close();
+            inserter.close();
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
             error(number);
         }
     }
@@ -65,10 +69,12 @@ public class Action {
                 }
             }
             (new SendSms(number, "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'")).sendSms();
+            selector.close();
+            inserter.close();
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
             error(number);
         }
     }
@@ -92,10 +98,11 @@ public class Action {
                     }
                 }
             }
+            selector.close();
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
             error(number);
         }
     }
@@ -117,10 +124,12 @@ public class Action {
                 }
             }
             (new SendSms(number, "You are not in any chats.")).sendSms();
+            selector.close();
+            worker.close();
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
             error(number);
         }
     }

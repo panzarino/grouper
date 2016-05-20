@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * Class that interacts with the database
@@ -12,6 +13,7 @@ import java.sql.SQLException;
  * @version 1.0.0
  */
 public class Worker {
+    private static final Logger log = Logger.getLogger(Worker.class.getName());
     Connection conn;
     /**
      * Creates a new Worker with a database connection
@@ -23,10 +25,9 @@ public class Worker {
         try {
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
         }
     }
     /**
@@ -41,10 +42,9 @@ public class Worker {
             stmt.close();
             return rs;
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
             return null;
         }
     }
@@ -55,10 +55,9 @@ public class Worker {
         try {
             conn.close();
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
         }
     }
 }
