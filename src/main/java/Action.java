@@ -29,7 +29,7 @@ public class Action {
             Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             ResultSet selected = selector.select("Name", "Chats", "Name='"+key+"'");
             while (selected.next()){
-                if (selected.getString("Name") == key){
+                if (selected.getString("Name").equals(key)){
                     (new SendSms(number, "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'")).sendSms();
                     return;
                 }
@@ -58,7 +58,7 @@ public class Action {
             Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
             while (selected.next()){
-                if (selected.getString("Name") == key){
+                if (selected.getString("Name").equals(key)){
                     inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getInt("ID")+")");
                     (new SendSms(number, "Hi, "+name+", You have a chat with id: "+key)).sendSms();
                     return;
@@ -78,7 +78,26 @@ public class Action {
      * @param content The content of the message
      */
     public static void message(String number, String content){
-        String key = content.substring(0, Math.min(140, content.length()));
+        try{
+            String key = content.substring(0, Math.min(140, content.length()));
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("*", "Users", "Number='"+number+"'");
+            while (selected.next()){
+                if (selected.getString("Number").equals(number)){
+                    ResultSet users = selector.select("*", "Users", "Chat="+selected.getInt("Chat"));
+                    while (selected.next()){
+                        if (selected.getInt("Chat") == users.getInt("Chat")){
+                            (new SendSms(users.getString("Number"), selected.getString("Name")+": "+content).sendSms();
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            error(number);
+        }
     }
     /**
      * Removes a user from his/her existing group
@@ -90,7 +109,7 @@ public class Action {
             Worker worker = new Worker("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             ResultSet selected = selector.select("*", "Users", "Number='"+number+"'");
             while (selected.next()){
-                if (selected.getString("Number") == number){
+                if (selected.getString("Number").equals(number)){
                     ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
                     worker.execute("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
                     (new SendSms(number, "You have left a chat with id: "+chatInfo.getString("Name"))).sendSms();
