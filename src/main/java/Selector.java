@@ -12,7 +12,6 @@ public class Selector extends Worker {
      * Creates a new Selector with a database connection
      * @param url The database URL
      * @param username The database username
-     * @author Jake Sylvestre
      * @param password The database password
      */
     public Selector(String url, String username, String password){
@@ -22,7 +21,6 @@ public class Selector extends Worker {
      * Select from database
      * @param select What to be selected
      * @param from What table to use
-     * @author Jake Sylvestre
      * @return Results of executed query
      */
     public ResultSet select(String select, String from){
@@ -31,7 +29,6 @@ public class Selector extends Worker {
     }
     /**
      * Select from database
-     * @author Jake Sylvestre
      * @param select What to be selected
      * @param from What table to use
      * @param where Condition for selection
