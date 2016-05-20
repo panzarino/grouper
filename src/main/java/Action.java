@@ -14,7 +14,15 @@ public class Action {
     public static void create(String number, String content){
         String code = content.replaceAll("\\s+","");
         String key = code.substring(0, Math.min(20, code.length()));
+        Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
         Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+        ResultSet selected = selector.select("Name", "Chats", "Name='"+key+"'");
+        while (selected.next()){
+            if (selected.getString("Name") == key){
+                (new SendSms(number, "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'")).sendSms();
+                return;
+            }
+        }
         inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
         (new SendSms(number, "You have created and joined a chat with id: "+key)).sendSms();
     }
