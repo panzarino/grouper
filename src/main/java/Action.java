@@ -1,5 +1,8 @@
 package hello;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Class that carries out actions
  * @author Zach Panzarino
@@ -7,24 +10,38 @@ package hello;
  */
 public class Action {
     /**
+     * Sends error message
+     * @param number The phone number to send to
+     */
+    public static void error(String number){
+        (new SendSms(number, "Something was wrong with your message. Check for typos and try again.")).sendSms();
+    }
+    /**
      * Creates a new chat with matching id
      * @param number The phone number of the sender
      * @param content The content of the message
      */
     public static void create(String number, String content){
-        String code = content.replaceAll("\\s+","");
-        String key = code.substring(0, Math.min(20, code.length()));
-        Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
-        Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
-        ResultSet selected = selector.select("Name", "Chats", "Name='"+key+"'");
-        while (selected.next()){
-            if (selected.getString("Name") == key){
-                (new SendSms(number, "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'")).sendSms();
-                return;
+        try{
+            String code = content.replaceAll("\\s+","");
+            String key = code.substring(0, Math.min(20, code.length()));
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("Name", "Chats", "Name='"+key+"'");
+            while (selected.next()){
+                if (selected.getString("Name") == key){
+                    (new SendSms(number, "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'")).sendSms();
+                    return;
+                }
             }
+            inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
+            (new SendSms(number, "You have created and joined a chat with id: "+key)).sendSms();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            error(number);
         }
-        inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
-        (new SendSms(number, "You have created and joined a chat with id: "+key)).sendSms();
     }
     /**
      * Adds a user to a group of an existing id
@@ -32,20 +49,27 @@ public class Action {
      * @param content The content of the message
      */
     public static void join(String number, String content){
-        String[] split = content.split(" ");
-        String key = split[0].substring(0, Math.min(20, code.length()));
-        String name = split[1].substring(0, Math.min(18, code.length()));
-        Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
-        Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
-        ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
-        while (selected.next()){
-            if (selected.getString("Name") == key){
-                inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getString("Name"));
-                (new SendSms(number, "Hi, "+name+", You have a chat with id: "+key)).sendSms();
-                return;
+        try{
+            String[] split = content.split(" ");
+            String key = split[0].substring(0, Math.min(20, split[0].length()));
+            String name = split[1].substring(0, Math.min(18, split[1].length()));
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
+            while (selected.next()){
+                if (selected.getString("Name") == key){
+                    inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getString("Name"));
+                    (new SendSms(number, "Hi, "+name+", You have a chat with id: "+key)).sendSms();
+                    return;
+                }
             }
+            (new SendSms(number, "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'")).sendSms();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            error(number);
         }
-        (new SendSms(number, "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'")).sendSms();
     }
     /**
      * Sends a message to the group the user is in
