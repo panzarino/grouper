@@ -35,6 +35,7 @@ public class Action {
                 }
             }
             inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
+            join(number, key);
             (new SendSms(number, "You have created and joined a chat with id: "+key)).sendSms();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
