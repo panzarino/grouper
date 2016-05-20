@@ -32,8 +32,20 @@ public class Action {
      * @param content The content of the message
      */
     public static void join(String number, String content){
-        String code = content.replaceAll("\\s+","");
-        String key = code.substring(0, Math.min(20, code.length()));
+        String[] split = content.split(" ");
+        String key = split[0].substring(0, Math.min(20, code.length()));
+        String name = split[1].substring(0, Math.min(18, code.length()));
+        Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+        Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+        ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
+        while (selected.next()){
+            if (selected.getString("Name") == key){
+                inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getString("Name"));
+                (new SendSms(number, "Hi, "+name+", You have a chat with id: "+key)).sendSms();
+                return;
+            }
+        }
+        (new SendSms(number, "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'")).sendSms();
     }
     /**
      * Sends a message to the group the user is in
