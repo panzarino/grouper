@@ -58,7 +58,7 @@ public class Action {
             ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
             while (selected.next()){
                 if (selected.getString("Name") == key){
-                    inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getString("Name"));
+                    inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getInt("ID")+")");
                     (new SendSms(number, "Hi, "+name+", You have a chat with id: "+key)).sendSms();
                     return;
                 }
@@ -84,6 +84,24 @@ public class Action {
      * @param number The phone number of the sender
      */
     public static void leave(String number){
-        
+        try{
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            Worker worker = new Worker("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("*", "Users", "Number='"+number+"'");
+            while (selected.next()){
+                if (selected.getString("Number") == number){
+                    ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
+                    worker.execute("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
+                    (new SendSms(number, "You have left a chat with id: "+chatInfo.getString("Name"))).sendSms();
+                    return;
+                }
+            }
+            (new SendSms(number, "You are not in any chats.")).sendSms();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            error(number);
+        }
     }
 }
