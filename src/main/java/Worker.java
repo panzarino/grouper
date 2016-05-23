@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,6 +26,7 @@ public class Worker {
         try {
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
@@ -42,6 +44,7 @@ public class Worker {
             stmt.close();
             return rs;
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
@@ -55,6 +58,7 @@ public class Worker {
         try {
             conn.close();
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
