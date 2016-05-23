@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
+import com.mysql.jdbc.Driver; 
 /**
  * Class that interacts with the database
  * @author Zach Panzarino
