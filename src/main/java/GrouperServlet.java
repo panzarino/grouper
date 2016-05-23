@@ -17,7 +17,8 @@ public class GrouperServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(Worker.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //org.apache.log4j.BasicConfigurator.configure();
+        org.apache.log4j.BasicConfigurator.configure();
+        
         log.info("test");
         String phoneNumber = request.getParameter("From");
         String body = request.getParameter("body");
