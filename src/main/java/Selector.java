@@ -24,7 +24,7 @@ public class Selector extends Worker {
      * @return Results of executed query
      */
     public ResultSet select(String select, String from){
-        String query = "SELECT `"+select+"` FROM  `"+from+"`";
+        String query = "SELECT "+select+" FROM  `"+from+"`";
         return execute(query);
     }
     /**
@@ -35,7 +35,7 @@ public class Selector extends Worker {
      * @return Results of executed query
      */
     public ResultSet select(String select, String from, String where){
-        String query = "SELECT `"+select+"` FROM  `"+from+"` WHERE "+where;
+        String query = "SELECT "+select+" FROM  `"+from+"` WHERE "+where;
         return execute(query);
     }
     /**
@@ -47,7 +47,7 @@ public class Selector extends Worker {
      * @return Results of executed query
      */
     public ResultSet select(String select, String from, String where, String limit){
-        String query = "SELECT `"+select+"` FROM  `"+from+"` WHERE "+where+" LIMIT "+limit;
+        String query = "SELECT "+select+" FROM  `"+from+"` WHERE "+where+" LIMIT "+limit;
         return execute(query);
     }
 }
