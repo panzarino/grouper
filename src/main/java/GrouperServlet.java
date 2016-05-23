@@ -8,11 +8,17 @@ import java.io.IOException;
 import com.twilio.sdk.verbs.TwiMLResponse;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.Message;
+
+import org.apache.log4j.Logger;
+
  
 public class GrouperServlet extends HttpServlet {
  
+    private static final Logger log = Logger.getLogger(Worker.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //org.apache.log4j.BasicConfigurator.configure();
+        log.info("test");
         String phoneNumber = request.getParameter("From");
         String body = request.getParameter("body");
         Text text = new Text(phoneNumber, body);
