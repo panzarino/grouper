@@ -2,6 +2,7 @@ package hello;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,6 +43,7 @@ public class Action {
             selector.close();
             inserter.close();
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
@@ -72,6 +74,7 @@ public class Action {
             selector.close();
             inserter.close();
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
@@ -100,6 +103,7 @@ public class Action {
             }
             selector.close();
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
@@ -127,6 +131,7 @@ public class Action {
             selector.close();
             worker.close();
         } catch (SQLException ex) {
+            BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
