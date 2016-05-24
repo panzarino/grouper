@@ -38,9 +38,8 @@ public class GrouperServlet extends HttpServlet {
         
         log.info("body: " + body + " from phone number " + phoneNumber);
         Text text = new Text(phoneNumber, body);
-        text.execute();
         TwiMLResponse twiml = new TwiMLResponse();
-        Message message = new Message("Your message has been sent!");
+        Message message = new Message(text.execute());
         try {
             twiml.append(message);
         } catch (TwiMLException e) {

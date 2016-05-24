@@ -16,9 +16,9 @@ import org.apache.http.message.BasicNameValuePair;
 public class SendSms {
  
     /* Find your sid and token at twilio.com/user/account */
-    private static final String ACCOUNT_SID = "ACc8c9bdc1eea207aa21237de002e2dcae";
-    private static final String AUTH_TOKEN = "d65f5ab834c2dee2fa59bd29b3491cd9";
-    private static final String FROM_NUMBER = "+19086284730"; //TODO import constants from another file
+    private static final String ACCOUNT_SID = "ACc4ab89366663b78cf901888a5d5351b5";
+    private static final String AUTH_TOKEN = "5fe391e2735fa528e082710994f38812";
+    private static final String FROM_NUMBER = "+19082743307"; //TODO import constants from another file
     private String toNumber;
     private String body;
     private TwilioRestClient client;
@@ -46,7 +46,7 @@ public class SendSms {
         try{
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("To", toNumber)); // Replace with a valid phone number for your account.
-            params.add(new BasicNameValuePair("From", "+19086529317 ")); // Replace with a valid phone number for your account.
+            params.add(new BasicNameValuePair("From", FROM_NUMBER)); // Replace with a valid phone number for your account.
             params.add(new BasicNameValuePair("Body", body));
             Message sms = messageFactory.create(params);
         }
