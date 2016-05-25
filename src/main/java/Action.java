@@ -124,7 +124,7 @@ public class Action {
             while (selected.next()){
                 if (selected.getString("Number").equals(number)){
                     ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
-                    worker.execute("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
+                    worker.executeUpdate("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
                     selector.close();
                     worker.close();
                     return "You have left a chat with id: "+chatInfo.getString("Name");

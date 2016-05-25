@@ -23,8 +23,8 @@ public class Inserter extends Worker {
      * @param value What to be inserted
      * @return Results of executed query
      */
-    public ResultSet insert(String into, String value){
+    public int insert(String into, String value){
         String query = "INSERT INTO "+into+" VALUES "+value;
-        return execute(query);
+        return executeUpdate(query);
     }
 }

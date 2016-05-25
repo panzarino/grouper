@@ -37,11 +37,10 @@ public class Worker {
      * @param statement The SQL statement to be executed
      * @return Results of executed query
      */
-    public ResultSet execute(String statement){
+    public ResultSet executeQuery(String statement){
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
-            stmt.close();
             return rs;
         } catch (SQLException ex) {
             BasicConfigurator.configure();
@@ -49,6 +48,25 @@ public class Worker {
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
             return null;
+        }
+    }
+    /**
+     * Execute an SQL statement with database (INSERT, UPDATE, DELETE only)
+     * @param statement The SQL statement to be executed
+     * @return Results of executed query
+     */
+    public int executeUpdate(String statement){
+        try {
+            Statement stmt = conn.createStatement();
+            int rs = stmt.executeUpdate(statement);
+            stmt.close();
+            return rs;
+        } catch (SQLException ex) {
+            BasicConfigurator.configure();
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
+            return -1;
         }
     }
     /**
