@@ -40,6 +40,6 @@ public class Text {
             }
             return Action.message(number, text);
         }
-        return Action.error();
+        return null;
     }
 }

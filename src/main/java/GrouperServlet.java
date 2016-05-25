@@ -38,15 +38,20 @@ public class GrouperServlet extends HttpServlet {
         
         log.info("body: " + body + " from phone number " + phoneNumber);
         Text text = new Text(phoneNumber, body);
-        TwiMLResponse twiml = new TwiMLResponse();
-        Message message = new Message(text.execute());
-        try {
-            twiml.append(message);
-        } catch (TwiMLException e) {
-            e.printStackTrace();
+        String content = text.execute();
+        String output = "<Response></Response>";
+        if (content != null){
+            TwiMLResponse twiml = new TwiMLResponse();
+            Message message = new Message(output);
+            try {
+                twiml.append(message);
+            } catch (TwiMLException e) {
+                e.printStackTrace();
+            }
+            output = twiml.toXML();
         }
  
         response.setContentType("application/xml");
-        response.getWriter().print(twiml.toXML());
+        response.getWriter().print(output);
     }
 }

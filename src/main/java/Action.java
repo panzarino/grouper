@@ -103,7 +103,7 @@ public class Action {
                 }
             }
             selector.close();
-            return "Your message has been sent!";
+            return null;
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
