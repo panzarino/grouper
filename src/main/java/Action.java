@@ -22,6 +22,9 @@ public class Action {
     public Action(String num, String text){
         number = num;
         content = text;
+        BasicConfigurator.configure();
+        log.info(number);
+        log.info(content);
     }
     /**
      * Sends error message
@@ -48,7 +51,7 @@ public class Action {
                     return "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'";
                 }
             }
-            inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
+            inserter.insert("Chats (Name)", "('"+key+"')");
             selector.close();
             inserter.close();
             return "You have created a chat with id: "+key+"\n"+join();
@@ -76,7 +79,7 @@ public class Action {
             ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
             while (selected.next()){
                 if (selected.getString("Name").equals(key)){
-                    inserter.insert("Users (Name, Number, Chat)", "("+name+", "+number+", "+selected.getInt("ID")+")");
+                    inserter.insert("Users (Name, Number, Chat)", "('"+name+"', '"+number+"', '"+selected.getInt("ID")+"')");
                     selector.close();
                     inserter.close();
                     return "Hi, "+name+", You have joined a chat with id: "+key;
