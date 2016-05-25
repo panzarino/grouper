@@ -2,8 +2,8 @@
 Large Event Group Chats with Twilio
 
 Text Message Usage:
-- `/create <chat id>`: Create a new chat with that ID
-- `/join <chat id>`: Join the chat with that ID
+- `/create <chat-id> <username>`: Create a new chat with that ID and set your name
+- `/join <chat-id> <username>`: Join the chat with that ID and set your name
 - `/leave`: Leave your current chat
 - `<message>`: Sends the message to everyone in your chat
 

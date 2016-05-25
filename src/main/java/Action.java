@@ -57,7 +57,9 @@ public class Action {
      */
     public static String join(String number, String content){
         try{
-            String[] split = content.split(" ");
+            String[] split = content.split(" ", 2);
+            if (split.length != 2)
+                return "Cannot join you to the chat. The correct syntax is '/join <chat-id> <username>'";
             String key = split[0].substring(0, Math.min(20, split[0].length()));
             String name = split[1].substring(0, Math.min(18, split[1].length()));
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
