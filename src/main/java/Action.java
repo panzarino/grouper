@@ -135,6 +135,8 @@ public class Action {
             ResultSet selected = selector.select("*", "Users", "Number='"+number+"'");
             while (selected.next()){
                 if (selected.getString("Number").equals(number)){
+                    Action alert = new Action(number, selected.getString("Name")+" has left this chat.");
+                    alert.message();
                     ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
                     worker.executeUpdate("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
                     selector.close();
