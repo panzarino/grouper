@@ -12,8 +12,8 @@ import org.apache.log4j.Logger;
  */
 public class Action {
     private static final Logger log = Logger.getLogger(Action.class.getName());
-    private String number;
-    private String content;
+    private final String number;
+    private final String content;
     /**
      * Creates a new Action for message
      * @param num The phone number of the sender
