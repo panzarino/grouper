@@ -12,19 +12,29 @@ import org.apache.log4j.Logger;
  */
 public class Action {
     private static final Logger log = Logger.getLogger(Action.class.getName());
+    private String number;
+    private String content;
+    /**
+     * Creates a new Action for message
+     * @param num The phone number of the sender
+     * @param text The content of the message
+     */
+    public Action(String num, String text){
+        number = num;
+        content = text;
+    }
     /**
      * Sends error message
-     * @param number The phone number to send to
+     * @return Error message
      */
     public static String error(){
         return "Something was wrong with your message. Check for typos and try again.";
     }
     /**
      * Creates a new chat with matching id
-     * @param number The phone number of the sender
-     * @param content The content of the message
+     * @return Message to sender
      */
-    public static String create(String number, String content){
+    public String create(){
         try{
             String[] split = content.split(" ");
             String key = split[0].substring(0, Math.min(20, split[0].length()));
@@ -41,7 +51,7 @@ public class Action {
             inserter.insert("Chats (Name, Admin)", "("+key+", "+number+")");
             selector.close();
             inserter.close();
-            return "You have created a chat with id: "+key+"\n"+join(number, content);
+            return "You have created a chat with id: "+key+"\n"+join();
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
@@ -52,10 +62,9 @@ public class Action {
     }
     /**
      * Adds a user to a group of an existing id
-     * @param number The phone number of the sender
-     * @param content The content of the message
+     * @return Message to sender
      */
-    public static String join(String number, String content){
+    public String join(){
         try{
             String[] split = content.split(" ", 2);
             if (split.length != 2)
@@ -86,10 +95,9 @@ public class Action {
     }
     /**
      * Sends a message to the group the user is in
-     * @param number The phone number of the sender
-     * @param content The content of the message
+     * @return Message to sender
      */
-    public static String message(String number, String content){
+    public String message(){
         try{
             String key = content.substring(0, Math.min(140, content.length()));
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
@@ -116,9 +124,9 @@ public class Action {
     }
     /**
      * Removes a user from his/her existing group
-     * @param number The phone number of the sender
+     * @return Message to sender
      */
-    public static String leave(String number){
+    public String leave(){
         try{
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             Worker worker = new Worker("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);

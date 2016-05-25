@@ -22,23 +22,26 @@ public class Text {
      */
     public String execute(){
         if (text!=null && number!=null){
+            Action action;
             if (text.startsWith("/")){
                 int space = text.indexOf(" ");
                 if (space != 1){
                     String command = text.substring(1, space);
                     String content = text.substring(space+1);
+                    action = new Action(number, content);
                     if (command.equals("create")){
-                        return Action.create(number, content);
+                        return action.create();
                     }
                     if (command.equals("join")){
-                        return Action.join(number, content);
+                        return action.join();
                     }
                     if (command.equals("leave")){
-                        return Action.leave(number);
+                        return action.leave();
                     }
                 }
             }
-            return Action.message(number, text);
+            action = new Action(number, text);
+            return action.message();
         }
         return null;
     }
