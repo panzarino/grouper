@@ -1,7 +1,5 @@
 package hello;
 
-import java.sql.ResultSet;
-
 /**
  * Class that selects from the database
  * @author Zach Panzarino
