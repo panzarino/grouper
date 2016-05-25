@@ -22,9 +22,6 @@ public class Action {
     public Action(String num, String text){
         number = num;
         content = text;
-        BasicConfigurator.configure();
-        log.info(number);
-        log.info(content);
     }
     /**
      * Sends error message
@@ -108,8 +105,8 @@ public class Action {
             while (selected.next()){
                 if (selected.getString("Number").equals(number)){
                     ResultSet users = selector.select("*", "Users", "Chat="+selected.getInt("Chat"));
-                    while (selected.next()){
-                        if (selected.getInt("Chat") == users.getInt("Chat")){
+                    while (users.next()){
+                        if (selected.getInt("Chat") == users.getInt("Chat") && !selected.getString("Number").equals(users.getString("Number"))){
                             (new SendSms(users.getString("Number"), selected.getString("Name")+": "+content)).sendSms();
                         }
                     }
