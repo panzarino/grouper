@@ -79,6 +79,8 @@ public class Action {
                     inserter.insert("Users (Name, Number, Chat)", "('"+name+"', '"+number+"', '"+selected.getInt("ID")+"')");
                     selector.close();
                     inserter.close();
+                    Action alert = new Action(number, name+" has just joined this chat.");
+                    alert.message();
                     return "Hi, "+name+", You have joined a chat with id: "+key;
                 }
             }
