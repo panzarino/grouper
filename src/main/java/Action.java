@@ -171,9 +171,10 @@ public class Action {
                     alert.message();
                     ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
                     worker.executeUpdate("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
+                    String chatName = chatInfo.getString("Name");
                     selector.close();
                     worker.close();
-                    (new SendSms(number, "You have left a chat with id: "+chatInfo.getString("Name"))).sendSms();
+                    (new SendSms(number, "You have left a chat with id: "+chatName)).sendSms();
                     return;
                 }
             }
