@@ -158,6 +158,32 @@ public class Action {
         }
     }
     /**
+     * Lists chats
+     */
+    public void chats(){
+        try{
+            List<String> chats = new ArrayList<String>();
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("*", "Chats");
+            while (selected.next()){
+                chats.add(selected.getString("Name"));
+            }
+            String output = "Available chats:\n";
+            for (int x=0; x<chats.size(); x++){
+                output += chats.get(x);
+                if (x != chats.size()-1)
+                    output += "\n";
+            }
+            selector.close();
+            (new SendSms(number, output)).sendSms();
+        } catch (SQLException ex) {
+            BasicConfigurator.configure();
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
+        }
+    }
+    /**
      * Removes a user from his/her existing group
      */
     public void leave(){

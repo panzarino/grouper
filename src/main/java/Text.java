@@ -33,6 +33,11 @@ public class Text {
                     action.list();
                     return;
                 }
+                if (text.startsWith("/chats")){
+                    action = new Action(number, "/chats");
+                    action.chats();
+                    return;
+                }
                 int space = text.indexOf(" ");
                 if (space != 1){
                     String command = text.substring(1, space);
