@@ -24,6 +24,10 @@ public class Text {
         if (text!=null && number!=null){
             Action action;
             if (text.startsWith("/")){
+                if (text.startsWith("/leave")){
+                    action = new Action(number, "/leave");
+                    return action.leave();
+                }
                 int space = text.indexOf(" ");
                 if (space != 1){
                     String command = text.substring(1, space);
@@ -34,9 +38,6 @@ public class Text {
                     }
                     if (command.equals("join")){
                         return action.join();
-                    }
-                    if (command.equals("leave")){
-                        return action.leave();
                     }
                 }
             }
