@@ -171,6 +171,7 @@ public class Action {
                     alert.message();
                     ResultSet chatInfo = selector.select("Name", "Chats", "ID="+selected.getInt("Chat"));
                     worker.executeUpdate("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
+                    chatInfo.next();
                     String chatName = chatInfo.getString("Name");
                     selector.close();
                     worker.close();
