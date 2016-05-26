@@ -20,13 +20,14 @@ public class Text {
      * Determines what to do with a message
      * @return Whether the message was successfully executed
      */
-    public String execute(){
+    public void execute(){
         if (text!=null && number!=null){
             Action action;
             if (text.startsWith("/")){
                 if (text.startsWith("/leave")){
                     action = new Action(number, "/leave");
-                    return action.leave();
+                    action.leave();
+                    return;
                 }
                 int space = text.indexOf(" ");
                 if (space != 1){
@@ -34,16 +35,18 @@ public class Text {
                     String content = text.substring(space+1);
                     action = new Action(number, content);
                     if (command.equals("create")){
-                        return action.create();
+                        action.create();
+                        return;
                     }
                     if (command.equals("join")){
-                        return action.join();
+                        action.join();
+                        return;
                     }
                 }
             }
             action = new Action(number, text);
-            return action.message();
+            action.message();
+            return;
         }
-        return null;
     }
 }

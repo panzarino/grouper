@@ -24,17 +24,10 @@ public class Action {
         content = text;
     }
     /**
-     * Sends error message
-     * @return Error message
-     */
-    public static String error(){
-        return "Something was wrong with your message. Check for typos and try again.";
-    }
-    /**
      * Creates a new chat with matching id
      * @return Message to sender
      */
-    public String create(){
+    public void create(){
         try{
             String[] split = content.split(" ");
             String key = split[0].substring(0, Math.min(20, split[0].length()));
@@ -45,30 +38,33 @@ public class Action {
                 if (selected.getString("Name").equals(key)){
                     selector.close();
                     inserter.close();
-                    return "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'";
+                    (new SendSms(number, "Someone already has a chat with id: "+key+"\nIf you want to join this chat, run '/join "+key+"'")).sendSms();
+                    return;
                 }
             }
             inserter.insert("Chats (Name)", "('"+key+"')");
             selector.close();
             inserter.close();
-            return "You have created a chat with id: "+key+"\n"+join();
+            (new SendSms(number, "You have created a chat with id: "+key)).sendSms();
+            join();
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
         }
-        return error();
     }
     /**
      * Adds a user to a group of an existing id
      * @return Message to sender
      */
-    public String join(){
+    public void join(){
         try{
             String[] split = content.split(" ", 2);
-            if (split.length != 2)
-                return "Cannot join you to the chat. The correct syntax is '/join <chat-id> <username>'";
+            if (split.length != 2){
+                (new SendSms(number, "Cannot join you to the chat. The correct syntax is '/join <chat-id> <username>'")).sendSms();
+                return;
+            }
             String key = split[0].substring(0, Math.min(20, split[0].length()));
             String name = split[1].substring(0, Math.min(18, split[1].length()));
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
@@ -81,25 +77,25 @@ public class Action {
                     inserter.close();
                     Action alert = new Action(number, name+" has just joined this chat.");
                     alert.message();
-                    return "Hi, "+name+", You have joined a chat with id: "+key;
+                    (new SendSms(number, "Hi, "+name+", You have joined a chat with id: "+key)).sendSms();
+                    return;
                 }
             }
             selector.close();
             inserter.close();
-            return "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'";
+            (new SendSms(number, "We couldn't find a chat with id: "+key+"\nTo create a chat, type '/create"+key+"'")).sendSms();
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
         }
-        return error();
     }
     /**
      * Sends a message to the group the user is in
      * @return Message to sender
      */
-    public String message(){
+    public void message(){
         try{
             String key = content.substring(0, Math.min(140, content.length()));
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
@@ -115,20 +111,18 @@ public class Action {
                 }
             }
             selector.close();
-            return null;
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
         }
-        return error();
     }
     /**
      * Removes a user from his/her existing group
      * @return Message to sender
      */
-    public String leave(){
+    public void leave(){
         try{
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             Worker worker = new Worker("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
@@ -141,18 +135,18 @@ public class Action {
                     worker.executeUpdate("DELETE FROM Users WHERE ID="+selected.getInt("ID"));
                     selector.close();
                     worker.close();
-                    return "You have left a chat with id: "+chatInfo.getString("Name");
+                    (new SendSms(number, "You have left a chat with id: "+chatInfo.getString("Name"))).sendSms();
+                    return;
                 }
             }
             selector.close();
             worker.close();
-            return "You are not in any chats.";
+            (new SendSms(number, "You are not in any chats.")).sendSms();
         } catch (SQLException ex) {
             BasicConfigurator.configure();
             log.info("SQLException: " + ex.getMessage());
             log.info("SQLState: " + ex.getSQLState());
             log.info("VendorError: " + ex.getErrorCode());
         }
-        return error();
     }
 }
