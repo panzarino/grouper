@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 public class GrouperServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(GrouperServlet.class.getName());
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        BasicConfigurator.configure();
         String phoneNumber = request.getParameter("From");
         String body = request.getParameter("Body");
         log.info(phoneNumber + ": " + body);
