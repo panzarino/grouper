@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 public class Worker {
     private static final Logger log = Logger.getLogger(Worker.class.getName());
     Connection conn;
-    Statement stmt;
     /**
      * Creates a new Worker with a database connection
      * @param url The database URL
@@ -40,7 +39,7 @@ public class Worker {
      */
     public ResultSet executeQuery(String statement){
         try {
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(statement);
             return rs;
         } catch (SQLException ex) {
@@ -58,7 +57,7 @@ public class Worker {
      */
     public int executeUpdate(String statement){
         try {
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
             int rs = stmt.executeUpdate(statement);
             stmt.close();
             return rs;
@@ -75,7 +74,6 @@ public class Worker {
      */
     public void close(){
         try {
-            stmt.close();
             conn.close();
         } catch (SQLException ex) {
             BasicConfigurator.configure();
