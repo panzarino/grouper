@@ -60,8 +60,8 @@ public class Action {
      */
     public void join(){
         try{
-            String[] split = content.split(" ", 2);
-            if (split.length != 2){
+            String[] split = content.split(" ", 3);
+            if (split.length < 2){
                 (new SendSms(number, "Cannot join you to the chat. The correct syntax is '/join <chat-id> <username>'")).sendSms();
                 return;
             }

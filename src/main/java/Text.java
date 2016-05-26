@@ -18,7 +18,6 @@ public class Text {
     }
     /**
      * Determines what to do with a message
-     * @return Whether the message was successfully executed
      */
     public void execute(){
         if (text!=null && number!=null){
