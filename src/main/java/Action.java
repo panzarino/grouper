@@ -69,6 +69,13 @@ public class Action {
             String name = split[1].substring(0, Math.min(18, split[1].length()));
             Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
             Inserter inserter = new Inserter("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet isin = selector.select("Number", "Users", "Number='"+number+"'");
+            while (isin.next()){
+                if (isin.getString("Number").equals(number)){
+                    (new SendSms(number, "You are already in a chat. Use '/leave' to leave that chat.")).sendSms();
+                    return;
+                }
+            }
             ResultSet selected = selector.select("*", "Chats", "Name='"+key+"'");
             while (selected.next()){
                 if (selected.getString("Name").equals(key)){
