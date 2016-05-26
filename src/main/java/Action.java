@@ -3,6 +3,7 @@ package hello;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -168,6 +169,7 @@ public class Action {
             while (selected.next()){
                 chats.add(selected.getString("Name"));
             }
+            Collections.sort(chats);
             String output = "Available chats:\n";
             for (int x=0; x<chats.size(); x++){
                 output += chats.get(x);
