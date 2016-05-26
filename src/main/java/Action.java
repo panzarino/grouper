@@ -72,7 +72,7 @@ public class Action {
             ResultSet isin = selector.select("Number", "Users", "Number='"+number+"'");
             while (isin.next()){
                 if (isin.getString("Number").equals(number)){
-                    (new SendSms(number, "You are already in a chat. Use '/leave' to leave that chat.")).sendSms();
+                    (new SendSms(number, "You are already in a chat. Use '/leave' to leave that chat. Use '/join "+key+" <username>' to join the chat after leaving.")).sendSms();
                     return;
                 }
             }
