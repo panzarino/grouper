@@ -2,6 +2,8 @@ package hello;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -25,7 +27,6 @@ public class Action {
     }
     /**
      * Creates a new chat with matching id
-     * @return Message to sender
      */
     public void create(){
         try{
@@ -56,7 +57,6 @@ public class Action {
     }
     /**
      * Adds a user to a group of an existing id
-     * @return Message to sender
      */
     public void join(){
         try{
@@ -100,7 +100,6 @@ public class Action {
     }
     /**
      * Sends a message to the group the user is in
-     * @return Message to sender
      */
     public void message(){
         try{
@@ -126,8 +125,40 @@ public class Action {
         }
     }
     /**
+     * Lists users in the chat
+     */
+    public void list(){
+        try{
+            List<String> members = new ArrayList<String>();
+            Selector selector = new Selector("jdbc:mysql://localhost:3306/Grouper", SQL.username, SQL.password);
+            ResultSet selected = selector.select("*", "Users", "Number='"+number+"'");
+            while (selected.next()){
+                if (selected.getString("Number").equals(number)){
+                    ResultSet users = selector.select("*", "Users", "Chat="+selected.getInt("Chat"));
+                    while (users.next()){
+                        if (selected.getInt("Chat") == users.getInt("Chat")){
+                            members.add(users.getString("Name")+": "+users.getString("Number"));
+                        }
+                    }
+                }
+            }
+            String output = "Members of your chat:\n";
+            for (int x=0; x<members.size(); x++){
+                output += members.get(x);
+                if (x != members.size()-1)
+                    output += "\n";
+            }
+            selector.close();
+            (new SendSms(number, output)).sendSms();
+        } catch (SQLException ex) {
+            BasicConfigurator.configure();
+            log.info("SQLException: " + ex.getMessage());
+            log.info("SQLState: " + ex.getSQLState());
+            log.info("VendorError: " + ex.getErrorCode());
+        }
+    }
+    /**
      * Removes a user from his/her existing group
-     * @return Message to sender
      */
     public void leave(){
         try{

@@ -29,6 +29,11 @@ public class Text {
                     action.leave();
                     return;
                 }
+                if (text.startsWith("/list")){
+                    action = new Action(number, "/list");
+                    action.list();
+                    return;
+                }
                 int space = text.indexOf(" ");
                 if (space != 1){
                     String command = text.substring(1, space);
