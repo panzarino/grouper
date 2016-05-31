@@ -1,8 +1,5 @@
 package hello;
 
-import java.util.Map;
-import java.util.HashMap;
- 
 import com.twilio.sdk.resource.instance.Account;
 import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.TwilioRestException;
@@ -13,9 +10,11 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
  
+ /**
+  * Sends an SMS message
+  * @author Jake Sylvestre
+  */
 public class SendSms {
- 
-
     private static final String ACCOUNT_SID = "ACc4ab89366663b78cf901888a5d5351b5"; //Twilio api keys
     private static final String AUTH_TOKEN = "5fe391e2735fa528e082710994f38812";
     private static final String FROM_NUMBER = "+19082743307";
@@ -24,9 +23,7 @@ public class SendSms {
     private TwilioRestClient client;
     private Account account;
     private MessageFactory messageFactory;
-    
     /**
-     * @author Jake Sylvestre
      * @param phonenumber - number with country code before it, example: +1-908-752-7625
      * @param body - body of the sms
      */
@@ -37,9 +34,7 @@ public class SendSms {
         account = client.getAccount();
         messageFactory = account.getMessageFactory();
     }
- 
     /**
-     * @author Jake Sylvestre
      * Send SMS given phoneNumber and body given in original code
      */
     public void sendSms(){
