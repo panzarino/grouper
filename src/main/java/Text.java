@@ -2,7 +2,7 @@ package hello;
 
 /**
  * Class that determines what to do with a message
- * @author Zach Panzarino
+ * @author Jacob Battipaglia
  * @version 1.0.0
  */
 public class Text {
