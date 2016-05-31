@@ -45,8 +45,8 @@ public class SendSms {
     public void sendSms(){
         try{
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("To", toNumber)); // Replace with a valid phone number for your account.
-            params.add(new BasicNameValuePair("From", FROM_NUMBER)); // Replace with a valid phone number for your account.
+            params.add(new BasicNameValuePair("To", toNumber));
+            params.add(new BasicNameValuePair("From", FROM_NUMBER));
             params.add(new BasicNameValuePair("Body", body));
             Message sms = messageFactory.create(params);
         }
