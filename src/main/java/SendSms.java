@@ -15,11 +15,10 @@ import org.apache.http.message.BasicNameValuePair;
  
 public class SendSms {
  
-    /* Find your sid and token at twilio.com/user/account */
-    private static final String ACCOUNT_SID = "ACc4ab89366663b78cf901888a5d5351b5";
+
+    private static final String ACCOUNT_SID = "ACc4ab89366663b78cf901888a5d5351b5"; //Twilio api keys
     private static final String AUTH_TOKEN = "5fe391e2735fa528e082710994f38812";
-    private static final String FROM_NUMBER = "+19082743307"; //TODO import constants from another file
-    private String toNumber;
+    private static final String FROM_NUMBER = "+19082743307";
     private String body;
     private TwilioRestClient client;
     private Account account;
