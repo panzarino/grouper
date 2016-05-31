@@ -19,10 +19,11 @@ public class SendSms {
     private static final String ACCOUNT_SID = "ACc4ab89366663b78cf901888a5d5351b5"; //Twilio api keys
     private static final String AUTH_TOKEN = "5fe391e2735fa528e082710994f38812";
     private static final String FROM_NUMBER = "+19082743307";
+    private String toNumber;
     private String body;
     private TwilioRestClient client;
     private Account account;
-    private  MessageFactory messageFactory;
+    private MessageFactory messageFactory;
     
     /**
      * @author Jake Sylvestre
