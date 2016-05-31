@@ -10,7 +10,8 @@ import org.apache.log4j.Logger;
 
 /**
  * Class that carries out actions
- * @author Zach Panzarino and Jacob Battipaglia
+ * @author Zach Panzarino
+ * @author Jacob Battipaglia
  * @version 1.0.0
  */
 public class Action {
